@@ -16,6 +16,8 @@ namespace TMAMS_Data_Transmitter
             var builder = WebApplication.CreateBuilder(args);
 
 
+            builder.WebHost.UseUrls("http://*:7883");
+
             builder.Services.AddReverseProxy().LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
 
             builder.Services.Configure<MqttSettings>(builder.Configuration.GetSection("MqttSettings"));
@@ -67,11 +69,10 @@ namespace TMAMS_Data_Transmitter
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
+           
                 app.UseSwagger();
                 app.UseSwaggerUI();
-            }
+           
 
             app.UseHttpsRedirection();
 
