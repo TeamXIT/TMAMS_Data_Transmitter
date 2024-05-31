@@ -16,6 +16,8 @@ namespace TMAMS_Data_Transmitter
             var builder = WebApplication.CreateBuilder(args);
 
 
+            builder.Services.AddReverseProxy().LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
+
             builder.Services.Configure<MqttSettings>(builder.Configuration.GetSection("MqttSettings"));
             // Add services to the container.
             // Add DbContext
@@ -76,6 +78,7 @@ namespace TMAMS_Data_Transmitter
             app.UseAuthorization();
 
 
+            app.MapReverseProxy();
             app.MapControllers();
 
             HostFactory.Run(x =>
